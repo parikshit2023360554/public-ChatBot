@@ -9,6 +9,7 @@ import Login from "./components/Login";
 import MyMessages from "./components/MyMessages";
 import PublicFeed from "./components/PublicFeed";
 import Settings from "./components/Settings";
+import DirectMessages from "./components/DirectMessages";
 
 function NavBar() {
   const [loggedIn, setLoggedIn] = React.useState(!!localStorage.getItem("token"));
@@ -46,6 +47,7 @@ function NavBar() {
 
         <Link to="/my-messages" className="text-purple-600 hover:underline">My Messages</Link>
         <Link to="/feed" className="text-blue-800 hover:underline">Public Feed</Link>
+        <Link to="/dm" className="text-green-700 hover:underline">Direct Messages</Link>
       </div>
       <div className="relative">
         {loggedIn ? (
@@ -98,6 +100,7 @@ function App() {
         <Route path="/my-messages" element={<MyMessages />} />
         <Route path="/feed" element={<PublicFeed />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/dm" element={<DirectMessages />} />
         <Route path="/" element={<PublicFeed />} />
       </Routes>
     </div>

@@ -7,12 +7,12 @@ export default function Settings() {
   const [msg, setMsg] = React.useState("");
 
 
-  let email = "";
+  let username = "";
   try {
     const token = localStorage.getItem("token");
     if (token) {
       const payload = JSON.parse(atob(token.split(".")[1]));
-      email = payload.email;
+      username = payload.username || payload.email;
     }
   } catch {}
 
@@ -42,8 +42,8 @@ export default function Settings() {
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
         <h2 className="text-2xl font-bold mb-4 text-center">Settings</h2>
         <div className="mb-6">
-          <div className="font-semibold mb-1">Account Email:</div>
-          <div className="text-gray-700 mb-2">{email || <span className="italic text-gray-400">Not logged in</span>}</div>
+          <div className="font-semibold mb-1">Account Username:</div>
+          <div className="text-gray-700 mb-2">{username || <span className="italic text-gray-400">Not logged in</span>}</div>
         </div>
         <form onSubmit={handleChangePassword} className="mb-6">
           <div className="font-semibold mb-2">Change Password</div>
@@ -92,4 +92,4 @@ export default function Settings() {
       </div>
     </div>
   );
-} 
+}

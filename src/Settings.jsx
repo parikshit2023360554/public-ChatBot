@@ -6,12 +6,12 @@ export default function Settings() {
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [msg, setMsg] = React.useState("");
 
-  let email = "";
+  let username = "";
   try {
     const token = localStorage.getItem("token");
     if (token) {
       const payload = JSON.parse(atob(token.split(".")[1]));
-      email = payload.email;
+      username = payload.username || payload.email;
     }
   } catch {}
 
@@ -42,7 +42,7 @@ export default function Settings() {
         <h2 className="text-3xl font-extrabold mb-2 text-center flex items-center justify-center gap-2">
           <span role="img" aria-label="settings">⚙️</span> Settings
         </h2>
-        <div className="mb-4 text-center text-purple-600">{email}</div>
+        <div className="mb-4 text-center text-purple-600">{username}</div>
         <form onSubmit={handleChangePassword} className="flex flex-col gap-4 mt-6">
           <input
             type="password"
@@ -82,4 +82,4 @@ export default function Settings() {
       </div>
     </div>
   );
-} 
+}

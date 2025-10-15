@@ -2,6 +2,7 @@ import React from "react";
 
 export default function Register() {
   const [email, setEmail] = React.useState("");
+  const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [errors, setErrors] = React.useState({});
   const [submitted, setSubmitted] = React.useState(false);
@@ -12,6 +13,9 @@ export default function Register() {
     const errs = {};
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
       errs.email = "Invalid email format.";
+    }
+    if (!/^[a-zA-Z0-9_]{3,20}$/.test(username)) {
+      errs.username = "Username must be 3-20 chars (letters, numbers, underscore).";
     }
     if (password.length < 6) {
       errs.password = "Password must be at least 6 characters.";
@@ -31,12 +35,13 @@ export default function Register() {
         const res = await fetch("http://localhost:4000/api/register", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password })
+          body: JSON.stringify({ email, username, password })
         });
         const data = await res.json();
         if (res.ok) {
           setServerMsg("Registration successful! You can now log in.");
           setEmail("");
+          setUsername("");
           setPassword("");
           setSubmitted(false);
         } else {
@@ -74,6 +79,20 @@ export default function Register() {
               )}
             </div>
             <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
+              <input
+                type="text"
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+                required
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 text-gray-900 placeholder-gray-400 transition"
+                placeholder="your_username"
+              />
+              {submitted && errors.username && (
+                <div className="text-red-500 text-xs mt-1">{errors.username}</div>
+              )}
+            </div>
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
               <input
                 type="password"
@@ -94,4 +113,4 @@ export default function Register() {
       </div>
     </div>
   );
-} 
+}
